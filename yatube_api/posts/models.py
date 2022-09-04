@@ -82,8 +82,10 @@ class Follow(models.Model):
 
     class Meta:
         constraints = [
+            models.CheckConstraint(
+                name='Проверка самоподписки',
+                check=~models.Q(user=models.F('author'))),
             models.UniqueConstraint(
-                fields=['user', 'following'],
-                name='unique_object'
-            ),
+                name='Проверка единственности подписки',
+                fields=['user', 'author'],)
         ]

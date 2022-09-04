@@ -1,26 +1,19 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.permissions import (
-    IsAuthenticated,
-    IsAuthenticatedOrReadOnly
-)
+from rest_framework.permissions import IsAuthenticated
 
-from django_filters.rest_framework import DjangoFilterBackend
-
-from posts.models import Group, Post
 from .mixins import ListCreateViewSet
 from .permissions import IsOwnerOrReadOnly
-from .serializers import (
-    CommentSerializer, FollowSerializer,
-    GroupSerializer, PostSerializer
-)
+from .serializers import (CommentSerializer, FollowSerializer, GroupSerializer,
+                          PostSerializer)
+from posts.models import Group, Post
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
 
 class PostViewSet(viewsets.ModelViewSet):
